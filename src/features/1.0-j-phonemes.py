@@ -3,6 +3,9 @@ __author__ = 'Jan Lubatschowski'
 from pycorenlp import StanfordCoreNLP
 import codecs, nltk, re, requests
 
+################ Remember to have the Stanford CoreNLP server running
+## Run the following in C:\Users\Jan\stanford-corenlp-full-2015-12-09
+## java -mx4g -cp "*" edu.stanford.nlp.pipeline.StanfordCoreNLPServer
 def main():
     # Read file, regex out anomalies, split into lines
     with codecs.open('../../data/raw/battle-cry-army-of-the-pharaohs.txt', 'rb', encoding='utf-8', errors='ignore') as f:
