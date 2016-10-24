@@ -25,15 +25,36 @@ def main():
     print(tokens)
 
     # Create arpabet using CMU dictionary
-    # @Bart, add the code from your notebook, there's a big chunk that's missing
-    #base_url = 'http://www.speech.cs.cmu.edu/cgi-bin/tools/lmtool/run'
-    #file = {'corpus': ('words.txt', " ".join([t for line in tokens for t in line if t not in arpabet.keys()]))}
-    #res = requests.post(base_url, \
-    #                    data={'formtype': 'simple'}, \
-    #                    files=file, allow_redirects=True)
-    #dict_re = re.compile(r"\d+\.dic")
+    arpabet = nltk.corpus.cmudict.dict()
+    base_url = 'http://www.speech.cs.cmu.edu/cgi-bin/tools/lmtool/run'
+    # This is for all the special cases, a.k.a. words not found in the cmu dict
+    # Doesn't currently work
+    file = {'corpus':
+                ('words.txt', " ".join([t for line in tokens for t in line if t not in arpabet.keys()]))}
+    res = requests.post(base_url, \
+                        data={'formtype': 'simple'}, \
+                        files=file, allow_redirects=True)
+    dict_re = re.compile(r"\d+\.dic")
+    print(res.text)
     #dict_path = dict_re.search(res.text).group(0)
     #res = requests.get(res.url + dict_path)
+
+    # Get phonemes of words that are in the cmu dict
+    #custom_dict = {line.split('\t')[0].lower(): line.split('\t')[1].split(' ') for line in res.text.split('\n') if
+    #               len(line) > 1}
+
+    def get_phonemes(word):
+        try:
+            return arpabet[word][0]
+        except:
+            try:
+                return custom_dict[word]
+            except:
+                print(word)
+                return word
+
+    phonemes = [[get_phonemes(t) for t in line] for line in tokens]
+
 
 
 if __name__ == '__main__':
