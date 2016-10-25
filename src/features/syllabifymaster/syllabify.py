@@ -49,6 +49,7 @@ O3 = {('S', 'T', 'R'), ('S', 'K', 'L'), ('T', 'R', 'W')} # "octroi"
 # This does not represent anything like a complete list of onsets, but 
 # merely those that need to be maximized in medial position.
 
+
 def syllabify(pron, alaska_rule=True):
     """
     Syllabifies a CMU dictionary (ARPABET) word string
@@ -149,7 +150,7 @@ def syllabify(pron, alaska_rule=True):
             i = j                        
     codas = [mypron[i + 1:]]
     ## resolve disputes and compute coda
-    for i in xrange(1, len(onsets)):
+    for i in range(1, len(onsets)):
         coda = []
         # boundary cases
         if len(onsets[i]) > 1 and onsets[i][0] == 'R':
@@ -164,7 +165,7 @@ def syllabify(pron, alaska_rule=True):
         if len(onsets[i]) > 1:
             if tuple(onsets[i][-2:]) in O2:
                 depth = 3 if tuple(onsets[i][-3:]) in O3 else 2
-        for j in xrange(len(onsets[i]) - depth):
+        for j in range(len(onsets[i]) - depth):
             coda.append(onsets[i].pop(0))
         # store coda
         codas.insert(i - 1, coda)
@@ -175,7 +176,7 @@ def syllabify(pron, alaska_rule=True):
     if flat_output != mypron:
         raise ValueError("could not syllabify {}, got {}".format(mypron, 
                                                            flat_output))
-    return output
+    return zip(onsets, nuclei, codas)
 
 
 def pprint(syllab):
