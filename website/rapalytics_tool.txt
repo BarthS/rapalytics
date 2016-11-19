@@ -1,0 +1,76 @@
+ <!-- Slide 10 -->
+  <div class="swiper-slide">
+    <div class="swiper-content-wrapper">
+      <div class="swiper-content">
+          <div class="col-md-12 lede userviz">
+            <div class="splitter bug">Make Your Own</div>
+           <p> Now it's your turn. Paste in English lyrics, poetry or text and our algorithm will try to highlight similar-sounding syllables to reveal rhymes and repetitions.</p>
+                <div id="entry" class="row custom-input">
+
+                  <div class="col-xs-12 col-sm-6 pull-left pillbuttons">
+                    <span class="button" onclick="RAP.nicki(tune)">Nicki Minaj</span>
+                    <span class="button" onclick="RAP.biggie(tune)">Biggie</span>
+                    <span class="button" onclick="RAP.lauryn(tune)">Lauryn Hill</span>
+                    <span class="button" onclick="RAP.pun(tune)">Big Pun</span>
+                    <span class="button" onclick="RAP.kim(tune)">Lil' Kim</span>
+                    <span class="button" onclick="RAP.raekwon(tune)">Raekwon</span>
+                    <span class="button" onclick="RAP.salt(tune)">Salt-N-Pepa</span>
+                    <span class="button" onclick="RAP.jay(tune)">Jay-Z</span>
+                    <span class="button" onclick="RAP.jewels(tune)">Run the Jewels</span>
+                    <span class="button" onclick="RAP.tribe(tune)">A Tribe Called Quest</span>
+                    <span class="button" onclick="RAP.bey(tune)">Beyoncé</span>
+                    <span class="button" onclick="RAP.chance(tune)">Chance the Rapper</span>
+                  </div>
+            <div class="col-xs-12 col-sm-6 pull-right leftborder">
+                      <textarea id="lyrics"  rows="8" maxlength="256" style="width: 100%">Choose a verse at left or paste in your own lyrics</textarea>
+            <div class="row">
+              <div class="slider-row">
+
+                     <div class="col-xs-2 squish">loose</div>
+                     <div class="col-xs-8 squish" id="slider"><input type="range" min="1.5" max="5" value="2" id="fader" step="0.5"></div>
+                     <div class="col-xs-2 squish">strict</div>
+                     <div class="col-xs-12 squish">
+                                      <span id="submitpillbutton" class="button inactive" onclick="RAP.analyze(tune)">Analyze</span>
+                     </div>
+                 </div>
+                 </div>
+         </div>
+        <div id="userviz"></div>
+
+    </div>
+    <div class="inactive loadloadloading loading" id="loadloadloading"><div class="loading-circle"></div></div>
+    <div id="words"></div>
+    <div id="bars"></div>
+    <script id="text-viz" type="text/jst">
+        <% _.each(sentences,function(sentence){ %>
+            <div>
+            <% _.each(sentence,function(word,wi){ %>
+                <span>
+                  <% _.each(word[1],function(syl,si){ %><span data-label="<%= word[0][si].label() %>" data-sounds="<%= word[0][si].sounds.join('-') %>" data-color="<%= word[0][si].color %>" style="background-color:<%= colors[word[0][si].color] %>;"><%= syl %></span><% }); %>
+                </span>
+            <% }); %>
+            </div>
+        <% }); %>
+    </script>
+
+    <script id="bar-viz" type="text/jst">
+<% _.each(groups,function(g,i){ %><div style="height:<%= dim %>px"><% _.each(syls,function(syl){ %><span class="block" style="background-color:<%= syl.color == g || syl.color == '*' ? colors[syl.color] : '#eee' %>;width:<%= dim %>px;height:<%= dim %>px;"></span><% }); %></div><% }); %>
+    </script>
+    <script src="js/hamiltunes.js?v=3"></script>
+
+          </div>
+          <div class="clearfix"></div>
+          <div class="tunes" id="tunes-userviz"></div>
+
+          <div class="tunes" id="tunes-userviz-error" class="hidden">
+            <p>We couldn't find a rhyme, try it one more time.</p>
+          </div>
+          <div class="clearfix"></div>
+          <div class="clearfix"></div>
+          <div class="text-container centered-container footnote">
+                <p class="smallbodytext">Note: The tool may have trouble with unusual pronunciations, misspellings or proper nouns. Rhyme is highly subjective, and ultimately lies in the eye (or ear) of the beholder. The sound lines of the visualization are arranged dynamically by the algorithm to create the longest consecutive string of rhymes. The lines are not in a fixed vertical order, and may change on successive analyses. <br><a href="http://graphics.wsj.com/hamilton-methodology">Read the full methodology »</a></p>
+                <div class="social-links"></div>
+            </div>
+        </div>
+      </div>
+  </div>
